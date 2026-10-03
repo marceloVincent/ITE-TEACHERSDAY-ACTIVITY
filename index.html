@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITE ACTIVITY</title>
+  <style>
+    :root {
+      --primary-color: rgba(255, 107, 129, 1);
+      --primary-hover: rgba(255, 71, 87, 1);
+      --bg-main: rgba(18, 18, 20, 1);
+      --bg-card: rgba(30, 30, 36, 1);
+      --bg-music: rgba(42, 31, 36, 1);
+      --bg-letter: rgba(26, 26, 31, 1);
+      --text-main: rgba(241, 242, 246, 1);
+      --text-muted: rgba(164, 176, 190, 1);
+      --text-light: rgba(116, 125, 140, 1);
+      --border-light: rgba(47, 53, 66, 1);
+      --border-music: rgba(89, 45, 56, 1);
+      --border-letter: rgba(51, 51, 61, 1);
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      padding: 40px 16px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      text-align: center;
+    }
+
+    main {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .memory-card {
+      width: 100%;
+      max-width: 450px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+
+    .photo-container {
+      position: relative;
+      width: 100%;
+      height: 280px;
+    }
+
+    .class-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--primary-color);
+      color: rgba(18, 18, 20, 1);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .memory-caption {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .memory-caption h3 {
+      margin-bottom: 8px;
+      color: var(--text-main);
+      font-size: 1.25rem;
+    }
+
+    .memory-caption p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .music-player {
+      width: 100%;
+      max-width: 450px;
+      background: var(--bg-music);
+      border: 1px solid var(--border-music);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .song-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .music-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--primary-color);
+      color: rgba(18, 18, 20, 1);
+      border-radius: 50%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      padding-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .signal-bar {
+      width: 4px;
+      background: rgba(18, 18, 20, 1);
+      border-radius: 2px;
+      height: 6px;
+    }
+
+    .playing .signal-bar:nth-child(1) {
+      animation: bounce 0.8s ease-in-out infinite alternate;
+    }
+    .playing .signal-bar:nth-child(2) {
+      animation: bounce 0.5s ease-in-out infinite alternate;
+      animation-delay: 0.2s;
+    }
+    .playing .signal-bar:nth-child(3) {
+      animation: bounce 0.6s ease-in-out infinite alternate;
+      animation-delay: 0.1s;
+    }
+
+    @keyframes bounce {
+      0% { height: 6px; }
+      100% { height: 22px; }
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .song-title {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+
+    .artist-name {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .time {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: rgba(61, 36, 44, 1);
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--primary-color);
+      border-radius: 3px;
+    }
+
+    .player-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .control-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: transform 0.2s ease;
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .play-btn {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-color);
+      color: rgba(18, 18, 20, 1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .letter-card {
+      width: 100%;
+      max-width: 450px;
+      background: var(--bg-letter);
+      border: 1px solid var(--border-letter);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      font-family: 'Georgia', serif;
+    }
+
+    .letter-header .salutation {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: rgba(241, 242, 246, 1);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .letter-body p {
+      color: rgba(220, 221, 225, 1);
+      line-height: 1.8;
+      font-size: 0.98rem;
+      margin-bottom: 16px;
+    }
+
+    .letter-footer {
+      margin-top: 24px;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sign-off {
+      font-style: italic;
+      color: rgba(164, 176, 190, 1);
+      font-size: 0.9rem;
+    }
+
+    .author-name {
+      font-weight: bold;
+      color: rgba(241, 242, 246, 1);
+      font-size: 1.1rem;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Teacher's month</h1>
+  </header>
+
+  <main>
+    <section class="memory-card">
+      <div class="photo-container">
+        <span class="badge">Memories</span>
+        <img src="/picture.png" alt="Class Photo" class="class-photo">
+      </div>
+      <div class="memory-caption">
+        <h3>A Moment to Remember</h3>
+        <p>Grateful for all the lessons and good times spent in our classroom!</p>
+      </div>
+    </section>
+
+    <section class="music-player">
+      <audio id="audioTrack" src=""></audio>
+
+      <div class="song-info">
+        <div class="music-icon" id="musicIcon">
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+        </div>
+        <div class="details">
+          <span class="song-title">A Song For You</span>
+          <span class="artist-name">song: Count on you</span>
+        </div>
+      </div>
+      
+      <div class="progress-bar-container">
+        <span class="time" id="currentTime">0:00</span>
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="time" id="durationTime">0:00</span>
+      </div>
+
+      <div class="player-controls">
+        <button class="control-btn">⏮</button>
+        <button class="control-btn play-btn" id="playBtn">▶</button>
+        <button class="control-btn">⏭</button>
+      </div>
+    </section>
+
+    <article class="letter-card">
+      <div class="letter-header">
+        <span class="salutation">Hello Ma'am Beverly,</span>
+      </div>
+      <div class="letter-body">
+        <p>Happy Teacher's Day! Thank you so much for your patience, guidance, and everything you’ve taught us. We truly appreciate all your hard work.</p>
+        <p>I wish you the best of luck, good health, and success in your future. Thank you for being such an inspiration to us!</p>
+      </div>
+      <div class="letter-footer">
+        <span class="sign-off">With gratitude,</span>
+        <span class="author-name">From Vincente</span>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    const audio = document.getElementById('audioTrack');
+    const playBtn = document.getElementById('playBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const progressFill = document.getElementById('progressFill');
+    const progressBar = document.getElementById('progressBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationTimeEl = document.getElementById('durationTime');
+
+    const audioSource = "/Bruno Mars - Count on Me (Official Lyric Video).mp3"; 
+
+    playBtn.addEventListener('click', () => {
+      if (!audio.src || audio.src === window.location.href) {
+        audio.src = audioSource;
+        audio.load();
+      }
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          playBtn.textContent = '⏸';
+          musicIcon.classList.add('playing');
+        }).catch(error => {
+          console.error("Hindi ma-play ang audio. Siguraduhing tama ang file path:", error);
+          alert("Pakilagay ang tamang audio file path sa 'audioSource' variable sa JavaScript.");
+        });
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+        musicIcon.classList.remove('playing');
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      const currentMinutes = Math.floor(audio.currentTime / 60);
+      const currentSeconds = Math.floor(audio.currentTime % 60);
+      currentTimeEl.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds}`;
+
+      if (audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶';
+      musicIcon.classList.remove('playing');
+      progressFill.style.width = '0%';
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      const durMinutes = Math.floor(audio.duration / 60);
+      const durSeconds = Math.floor(audio.duration % 60);
+      durationTimeEl.textContent = `${durMinutes}:${durSeconds < 10 ? '0' : ''}${durSeconds}`;
+    });
+  </script>
+
+</body>
+</html>
