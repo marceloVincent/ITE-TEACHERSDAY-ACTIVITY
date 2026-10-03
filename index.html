@@ -292,7 +292,7 @@
     <section class="memory-card">
       <div class="photo-container">
         <span class="badge">Memories</span>
-        <img src="/picture.png" alt="Class Photo" class="class-photo">
+        <img src="picture.png" alt="Class Photo" class="class-photo">
       </div>
       <div class="memory-caption">
         <h3>A Moment to Remember</h3>
@@ -354,7 +354,7 @@
     const currentTimeEl = document.getElementById('currentTime');
     const durationTimeEl = document.getElementById('durationTime');
 
-    const audioSource = "/Bruno Mars - Count on Me (Official Lyric Video).mp3"; 
+    const audioSource = "Bruno Mars - Count on Me (Official Lyric Video).mp3"; 
 
     playBtn.addEventListener('click', () => {
       if (!audio.src || audio.src === window.location.href) {
@@ -366,9 +366,6 @@
         audio.play().then(() => {
           playBtn.textContent = '⏸';
           musicIcon.classList.add('playing');
-        }).catch(error => {
-          console.error("Hindi ma-play ang audio. Siguraduhing tama ang file path:", error);
-          alert("Pakilagay ang tamang audio file path sa 'audioSource' variable sa JavaScript.");
         });
       } else {
         audio.pause();
